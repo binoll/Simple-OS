@@ -4,26 +4,32 @@ org 0x7c00
 ; code
 section .text
 
+
 xor ax, ax
+xor bx, bx
 xor cx, cx
+xor dx, dx
 
-mov ah, 0x0e
-mov si, welcome_text 
-cld
+; clear screen via set video mode 80x25 text mode
+mov ah, 0
+mov al, 3h
+int 10h
 
-mov cx, end_data-start_data
-sub cx, 2
+; set cursor position to 0
+mov ax, 0200h
+mov dx, 0000h
+int 10h
 
-print_text:
-	lodsb
-	int 0x10
-	loop print_text
-jmp $
+; print string via int 10h-13h
+mov ax, 1301h
+mov bp, welcome_text
+mov cx, welcome_text_len 
+mov bl, 0Fh
+int 10h
 
-; data
-start_data   db 0	
+; data	
 welcome_text db "Hello!", 0x0a, 0x0d, 0 
-end_data     db 0
+welcome_text_len equ $-welcome_text
 
 ; nulls and signature
 times 510-($-$$) db 0
