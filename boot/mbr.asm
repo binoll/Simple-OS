@@ -28,7 +28,7 @@ mov bl, 0Fh
 int 10h
 
 ; data	
-welcome_text db "Hello!", 0x0a, 0x0d, 0 
+welcome_text db "Hello!", 0x0a, 0x0d, 0
 welcome_text_len equ $-welcome_text
 
 ; nulls and signature
